@@ -1,0 +1,40 @@
+<!DOCTYPE html>
+<html>
+<head>
+  <title>Kiểm tra liên kết</title>
+  <script src="https://code.jquery.com/jquery-3.6.0.min.js"></script>
+  <script src="https://unpkg.com/link-preview-js/dist/link-preview.min.js"></script>
+
+
+</head>
+<body>
+    <!-- Các nội dung khác trong phần body -->
+  
+    <script src="https://cdn.jsdelivr.net/npm/link-preview-js@1.3.2/dist/link-preview.min.js"></script>
+    <script>
+      var links = [
+        'https://vuejs.org/ấccascsacsac',
+        'https://getcomposer.org/',
+        'https://www.php.net/',
+        'https://www.postman.com/downloads/ấccacssacsacsacsacsac',
+        'https://github.com/%C3%A2vvsavsavsavsav',
+        'https://getcomposer.org/avdvsdvsdvsdvsdvdsvsdvsdvds'
+      ];
+  
+      // Duyệt qua mảng các liên kết
+      links.forEach(function (link) {
+        // Sử dụng link-preview-js để kiểm tra liên kết
+        LinkPreview.getPreview(link)
+          .then(function (preview) {
+            // Liên kết hoạt động tốt
+            console.log(link + " - Hoạt động tốt");
+          })
+          .catch(function (error) {
+            // Liên kết không hoạt động tốt
+            console.log(link + " - Không hoạt động tốt");
+          });
+      });
+    </script>
+  </body>
+  
+</html>

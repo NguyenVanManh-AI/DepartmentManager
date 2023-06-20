@@ -26,7 +26,7 @@
         links.forEach(function(link) {
           $.ajax({
             url: "https://api.linkpreview.net",
-            data: { q: link, key: "3d6885b1f16a7893cb1b6094425f4c34" }, // Thay YOUR_API_KEY bằng khóa API của bạn
+            data: { q: link, key: "9dace493a38e6f3abdc761d0750724f3" }, // Thay YOUR_API_KEY bằng khóa API của bạn
             success: function(result) {
               checkedLinks++;
               var status = result.error ? "không hoạt động" : "hoạt động tốt";

@@ -1,0 +1,82 @@
+<!DOCTYPE html>
+<html>
+<head>
+  <title>Link Checker</title>
+</head>
+<body>
+  <script>
+    const links = [
+      'https://vuejs.org/ấccascsacsac',
+      'https://getcomposer.org/',
+      'https://www.php.net/',
+      'https://www.postman.com/downloads/ấccacssacsacsacsacsac',
+      'https://github.com/%C3%A2vvsavsavsavsav',
+      'https://getcomposer.org/avdvsdvsdvsdvsdvdsvsdvsdvds',
+      'https://www.facebook.com/IcassNiuTon',
+      'https://docs.google.com/spreadsheets/d/1WkuA02F8yUpJ0U7wl5uuyV9I1stfCRct/edit?fbclid=IwAR1sZrYasfGzqUF-JFBO-qy272t8lTS4qMcU2OkjdgUnoMR9fjRQJrroOus#gid=494795954'
+    ];
+
+    // Hàm kiểm tra liên kết
+    function checkLinks() {
+      const results = [];
+
+      // Duyệt qua mỗi liên kết
+      links.forEach((link) => {
+        fetch("https://api.httpstatus.io/v1/status", {
+          "method": "POST",
+          "headers": {
+            "Content-Type": "application/json; charset=utf-8"
+          },
+          "body": JSON.stringify({ "requestUrl": link })
+        })
+        .then((res) => res.text())
+        .then((responseText) => {
+          // Kiểm tra trạng thái phản hồi
+          if (responseText.includes('"statusCode":200')) {
+            results.push({ link, status: 'hoạt động tốt' });
+          } else {
+            results.push({ link, status: 'lỗi' });
+          }
+
+          // Kiểm tra xem đã kiểm tra xong tất cả liên kết chưa
+          if (results.length === links.length) {
+            displayResults(results);
+          }
+        })
+        .catch((error) => {
+          console.error(error);
+
+          results.push({ link, status: 'lỗi' });
+
+          // Kiểm tra xem đã kiểm tra xong tất cả liên kết chưa
+          if (results.length === links.length) {
+            displayResults(results);
+          }
+        });
+      });
+    }
+
+    // Hàm hiển thị kết quả
+    function displayResults(results) {
+      const resultContainer = document.createElement('div');
+
+      // Tạo danh sách kết quả
+      const resultList = document.createElement('ul');
+      results.forEach((result) => {
+        const listItem = document.createElement('li');
+        listItem.textContent = `${result.link}: ${result.status}`;
+        resultList.appendChild(listItem);
+      });
+
+      // Thêm danh sách kết quả vào container
+      resultContainer.appendChild(resultList);
+
+      // Hiển thị container kết quả trên trang web
+      document.body.appendChild(resultContainer);
+    }
+
+    // Gọi hàm kiểm tra liên kết khi trang web được tải
+    window.onload = checkLinks;
+  </script>
+</body>
+</html>
