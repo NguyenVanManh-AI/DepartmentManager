@@ -1,0 +1,95 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Geolocation Example</title>
+</head>
+
+<body>
+    
+  <h1>Geolocation Example : <span id="address"></span></h1>
+  <h1>country code : <span id="country_code"></span></h1>
+  <script>
+
+    var url = {
+      Vietnam : [
+        'https://vuejs.org/',
+        'https://getcomposer.org/',
+        'https://www.php.net/',
+        'https://www.postman.com/downloads/',
+        'https://github.com/',
+      ],
+      Armenia : [
+        'https://techcrunch.com/',
+        'https://www.cnet.com/',
+        'https://www.engadget.com/',
+        'Verge: https://www.theverge.com/',
+        'https://www.wired.com/'
+      ]
+    };
+
+    var name_country = '';
+    var country_code2 = '';
+    function getUserCountry() {
+    fetch('https://api.ipgeolocation.io/ipgeo?apiKey=a1f64880c15b486eb1e7e4a58686a316')
+        .then(response => response.json())
+        .then(data => {
+            console.log(data);
+            var country = data.country_name;
+            console.log("Quốc gia: " + country);
+            name_country = data.country_name;
+            country_code2 = data.country_code2;
+            // Xử lý thông tin quốc gia ở đây
+            handleCountryName();
+        })
+        .catch(error => {
+            console.error('Lỗi khi lấy thông tin quốc gia:', error);
+        });
+    }
+
+    // Kiểm tra link có tồn
+    function checkLinkAvailability(link) {
+      return fetch(link)
+        .then(response => {
+          if (response.ok) {
+            // Liên kết sống
+            return true;
+          } else {
+            // Liên kết không sống
+            return false;
+          }
+        })
+        .catch(error => {
+          // Lỗi khi kiểm tra liên kết
+          console.error('Lỗi khi kiểm tra liên kết:', error);
+          return false;
+        });
+    }
+
+    function handleCountryName() {
+        console.log(name_country);
+        var address = window.document.getElementById('address');
+        address.innerHTML = name_country;
+
+        var country_code = window.document.getElementById('country_code');
+        country_code.innerHTML = country_code2;
+
+        // Code thêm cho tôi đoạn này kiểm tra nếu name_country là quốc gia nào thì random 1 trong các link trong 
+        // biến url quốc gia đó và redirect đến đó 
+        // Check if name_country is a key in the url object
+        if (name_country in url) {
+            var countryUrls = url[name_country];
+            var randomUrl = countryUrls[Math.floor(Math.random() * countryUrls.length)];
+            window.location.href = randomUrl;
+        }
+
+    }
+
+    // Gọi hàm để lấy quốc gia của người dùng
+    getUserCountry();
+
+  </script>
+</body>
+</html>
