@@ -21,7 +21,6 @@
             'https://www.postman.com/downloads/ấccacssacsacsacsacsac',
             'https://github.com/%C3%A2vvsavsavsavsav',
             'https://getcomposer.org/avdvsdvsdvsdvsdvdsvsdvsdvds',
-            'https://www.facebook.com/IcassNiuTon',
             'https://www.youtube.com/vdsvdsvdsvsdvsdvsdvds',
             'https://react.dev/avdsdvsvsdvs/dvdsvdsvsdvsdvsdv',
             'https://angular.io/sasacsacsacsacascascas',
@@ -103,6 +102,7 @@
         const randomIndex = Math.floor(Math.random() * links.length);
         const link = links[randomIndex];
     
+        // Kiểm tra link tốt hay lỗi 
         fetch("https://api.httpstatus.io/v1/status", {
             "method": "POST",
             "headers": {
