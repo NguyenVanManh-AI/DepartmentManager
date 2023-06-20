@@ -1,0 +1,28 @@
+<!DOCTYPE html>
+<html>
+<head>
+  <title>Trang web của tôi</title>
+  <script src="https://cdn.jsdelivr.net/npm/axios/dist/axios.min.js"></script>
+</head>
+<body>
+  <!-- Nội dung trang web của bạn -->
+
+  <script>
+    async function checkLinkStatus(link) {
+      try {
+        const response = await axios.head(link);
+        if (response.status === 200) {
+          console.log(`Link ${link} hoạt động bình thường.`);
+        } else {
+          console.log(`Link ${link} bị lỗi ${response.status}.`);
+        }
+      } catch (error) {
+        console.log(`Có lỗi khi kiểm tra link ${link}: ${error}`);
+      }
+    }
+
+    // Sử dụng hàm checkLinkStatus để kiểm tra một liên kết
+    checkLinkStatus('https://www.example.com');
+  </script>
+</body>
+</html>

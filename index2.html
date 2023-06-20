@@ -5,6 +5,7 @@
   <meta charset="UTF-8">
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
   <title>Geolocation Example</title>
+  <script src="https://cdn.jsdelivr.net/npm/axios/dist/axios.min.js"></script>
 </head>
 
 <body>
@@ -13,6 +14,29 @@
   <h1>country code : <span id="country_code"></span></h1>
 
   <script>
+
+
+
+const axios = require('axios');
+
+async function checkLinkStatus(link) {
+  try {
+    const response = await axios.head(link);
+    if (response.status === 200) {
+      console.log(`Link ${link} hoạt động bình thường.`);
+    } else {
+      console.log(`Link ${link} bị lỗi ${response.status}.`);
+    }
+  } catch (error) {
+    console.log(`Có lỗi khi kiểm tra link ${link}: ${error}`);
+  }
+}
+
+// Sử dụng hàm checkLinkStatus để kiểm tra một liên kết
+checkLinkStatus('https://www.example.com');
+
+
+
     var url = {
       Vietnam: [
         'https://vuejs.org/ấccascsacsac',
@@ -51,26 +75,35 @@
         });
     }
 
-    async function checkLinks(links) {
-      var normalLinks = []; // Biến lưu các link hoạt động bình thường
+    async function checkLink(link) {
+      try {
+        const response = await fetch(link);
+        if (response.status === 200) {
+          console.log(`Link ${link} hoạt động bình thường.`);
+          return true;
+        } else {
+          console.log(`Link ${link} bị lỗi ${response.status}.`);
+          return false;
+        }
+      } catch (error) {
+        console.log(`Có lỗi khi kiểm tra link ${link}: ${error}`);
+        return false;
+      }
+    }
 
-      for (const link of links) {
-        try {
-          const response = await fetch(link);
-          if (response.status === 404) {
-            console.log(`Link ${link} bị lỗi 404.`);
-          } else {
-            console.log(`Link ${link} hoạt động bình thường.`);
-            normalLinks.push(link); // Thêm link vào mảng normalLinks
-            // Thực hiện các hành động khác nếu link không bị lỗi 404.
-          }
-        } catch (error) {
-          console.log(error);
-          console.log(`Có lỗi khi kiểm tra link ${link}: ${error}`);
+    async function handleLinks(links) {
+      var randomLink = links[Math.floor(Math.random() * links.length)];
+      console.log("Kiểm tra liên kết:", randomLink);
+      const isWorking = await checkLink(randomLink);
+      if (!isWorking) {
+        // Nếu liên kết không hoạt động, chọn liên kết khác
+        var remainingLinks = links.filter(link => link !== randomLink);
+        if (remainingLinks.length > 0) {
+          handleLinks(remainingLinks);
+        } else {
+          console.log("Không có liên kết hoạt động.");
         }
       }
-
-      return normalLinks; // Trả về mảng các link hoạt động bình thường
     }
 
     function handleCountryName() {
@@ -86,19 +119,17 @@
       // Check if name_country is a key in the url object
       if (name_country in url) {
         var countryUrls = url[name_country];
-
-        async function handleLinks() {
-          const normalLinks = await checkLinks(countryUrls);
-          console.log("Các link hoạt động bình thường:", normalLinks);
-        }
-
-        handleLinks(); // Gọi hàm xử lý kiểm tra các link
+        handleLinks(countryUrls);
       }
     }
 
     // Gọi hàm để lấy quốc gia của người dùng
     getUserCountry();
   </script>
+
+
+
+<script src="https://cdn.jsdelivr.net/npm/axios/dist/axios.min.js"></script>
 </body>
 
 </html>
