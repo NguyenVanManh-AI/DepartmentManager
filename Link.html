@@ -1,0 +1,64 @@
+<!DOCTYPE html>
+<html>
+<head>
+  <title>Kiểm tra liên kết</title>
+  <script src="https://code.jquery.com/jquery-3.6.0.min.js"></script>
+  <script>
+    $(document).ready(function() {
+      // Mảng các liên kết
+      var links = [
+        'https://vuejs.org/ấccascsacsac',
+        'https://getcomposer.org/',
+        'https://www.php.net/',
+        'https://www.postman.com/downloads/ấccacssacsacsacsacsac',
+        'https://github.com/%C3%A2vvsavsavsavsav',
+        'https://getcomposer.org/avdvsdvsdvsdvsdvdsvsdvsdvds'
+      ];
+
+
+      // Mảng liên kết hoạt động tốt
+      var goodLinks = [];
+
+      // Hàm kiểm tra liên kết
+      function checkLinks() {
+        var checkedLinks = 0;
+        
+        links.forEach(function(link) {
+          $.ajax({
+            url: "https://api.linkpreview.net",
+            data: { q: link, key: "3d6885b1f16a7893cb1b6094425f4c34" }, // Thay YOUR_API_KEY bằng khóa API của bạn
+            success: function(result) {
+              checkedLinks++;
+              var status = result.error ? "không hoạt động" : "hoạt động tốt";
+              console.log(link + " " + status);
+
+              if (!result.error) {
+                goodLinks.push(link);
+              }
+              
+              if (checkedLinks === links.length) {
+                console.log("Kiểm tra hoàn thành.");
+              }
+            },
+            error: function() {
+              checkedLinks++;
+              console.log(link + " không hoạt động.");
+              
+              if (checkedLinks === links.length) {
+                console.log("Kiểm tra hoàn thành.");
+                console.log(goodLinks);
+              }
+            }
+          });
+        });
+      }
+
+      // Gọi hàm kiểm tra liên kết khi tài liệu đã được tải
+      checkLinks();
+
+    });
+  </script>
+</head>
+<body>
+</body>
+</html>

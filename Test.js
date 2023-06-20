@@ -3,7 +3,7 @@ async function checkLinks(links) {
   
     for (const link of links) {
       try {
-        const response = await fetch(link);
+        const response = await fetch(link, { mode: 'no-cors' });
         if (response.status === 404) {
           console.log(`Link ${link} bị lỗi 404.`);
         } else {

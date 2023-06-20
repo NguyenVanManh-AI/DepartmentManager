@@ -5,14 +5,14 @@
 </head>
 <body>
   <!-- Nội dung trang web của bạn -->
-
   <script>
 async function checkLinks(links) {
     var normalLinks = []; // Biến lưu các link hoạt động bình thường
   
     for (const link of links) {
       try {
-        const response = await fetch(link);
+        const response = await fetch(link, { mode: 'cors' });
+        console.log(response);
         if (response.status === 404) {
           console.log(`Link ${link} bị lỗi 404.`);
         } else {
@@ -47,8 +47,6 @@ async function checkLinks(links) {
 
   
   handleLinks();
-
-  
   </script>
 </body>
 </html>
